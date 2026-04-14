@@ -8,13 +8,13 @@ using namespace std;
 int main() {
     map<string, string> users;
     bool logged_in = false;
-    string current_user = "";
     int choice;
+    string email, password;
 
     while (true) {
         cout << "\nMenu:\n";
 
-        if (!logged_in) {
+        if (logged_in == false) {
             cout << "1. Sign up\n";
             cout << "2. Login\n";
         } else {
@@ -25,16 +25,14 @@ int main() {
         cout << "Enter your choice: ";
         cin >> choice;
 
-        if (!logged_in && choice == 1) {
-            string email, password;
-
+        if (choice == 1 && logged_in == false) {
             cout << "Enter your email: ";
             cin >> email;
 
             try {
                 check_email(email);
             } catch (const invalid_argument& e) {
-                cout << e.what() << "\n";
+                cout << e.what() << endl;
                 continue;
             }
 
@@ -42,31 +40,28 @@ int main() {
             cin >> password;
 
             users[email] = password;
-            cout << "Sign up successful!\n";
+            cout << "Sign up successful.\n";
         }
-        else if (!logged_in && choice == 2) {
-            string email, password;
-
+        else if (choice == 2 && logged_in == false) {
             cout << "Enter your email: ";
             cin >> email;
+
             cout << "Enter your password: ";
             cin >> password;
 
             if (users.find(email) != users.end() && users[email] == password) {
                 logged_in = true;
-                current_user = email;
-                cout << "Login successful!\n";
+                cout << "Login successful.\n";
             } else {
-                cout << "Invalid email or password.\n";
+                cout << "Wrong email or password.\n";
             }
         }
-        else if (logged_in && choice == 3) {
+        else if (choice == 3 && logged_in == true) {
             logged_in = false;
-            current_user = "";
-            cout << "Logged out successfully!\n";
+            cout << "Logout successful.\n";
         }
         else if (choice == 0) {
-            cout << "Exiting program.\n";
+            cout << "Program ended.\n";
             break;
         }
         else {
